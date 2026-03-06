@@ -1,32 +1,33 @@
-using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-
-
+using UnityEngine;
+ 
 public class Enemy : MonoBehaviour
 {
-    // velocidade
-        public float speed;
-      
-    //target do inimigo
-         public Transform target;
-
-    //pontos de dano no ataque
-        public int playerDamage=2;
-
-   void Update()
+    //Enemy movement speed
+    public float speed;
+ 
+    //The target the enemy is moving towards
+    public Transform target;
+ 
+    //Damage points from an attack by the player's enemy
+    public int playerDamage = 2;
+ 
+ 
+    void Update()
     {
-        //altere a posicão do NPC a cada novo frame
-        transform.position = Vector3.MoveTowards(transform.position, target.position, speed*Time.deltaTime);
-
-        //rode NPC a cada frame para se direcionar para o target (jogador)
+        //Changes the NPC position to a new one every frame
+        transform.position = Vector3.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
+ 
+        //Turns the NPC each frame to face the target
         transform.LookAt(target.position);
     }
-    
-    // quando um inimigo colide com o jogador, é feito um dano a esse jogador
-   private void OnTriggerEnter (Collider other)
+ 
+    //When an enemy collides with a player, damage is inflicted on the second player
+    private void OnTriggerEnter(Collider other)
     {
-       Player player= other.GetComponent<Player>();
-       player.TakeDamage(playerDamage);
-   }
+        Player player = other.GetComponent<Player>();
+        player.TakeDamage(playerDamage);
+    }
 }
+
