@@ -1,37 +1,56 @@
-using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-
+using UnityEngine;
+using UnityEngine.SceneManagement;
+ 
 public class Player : MonoBehaviour
 {
-    // Variável pública para guardar o prefab da fireball
-    // Como é pública, aparece no Inspector
-    // Aqui vais arrastar o prefab Fireball
-    public  GameObject fireballPrefab;
-
-    // Variável pública que guarda o ponto de onde a fireball sai
-    // Também aparece no Inspector
-    // Aqui vais arrastar o objeto AttackPoint
+    //Current player health
+    public int health = 10;
+    //Maximum player Health
+    public int maxHealth = 10;
+ 
+    //Number of coins collected
+    public int coins;
+ 
+    //The Fireball prefab and the Transform parameter of the attack point
+    public GameObject fireballPrefab;
     public Transform attackPoint;
-
-    // Player Health - saude do jogador
-    private int health=10;
-        public void TakeDamage(int damage)
+ 
+    //The component responsible for playing sounds
+    public AudioSource audioSource;
+ 
+    //Sound file containing the damage sound effect
+    public AudioClip damageSound;
+ 
+    //The method that processes the damage done
+    public void TakeDamage(int damage)
     {
         health -= damage;
-       print ("Player's health: "+ health); 
-    }
-
-void Update()
-    {
-        if (Input.GetMouseButtonDown(0))  // Detecta quando o botão esquerdo do rato é pressionado
-{
-      Instantiate(fireballPrefab, 
-attackPoint.
-position, attackPoint.
-rotation);
-}
-
+ 
+        // If there is still health, then the sound of damage is played
+        if(health > 0)
+        {
+            audioSource.PlayOneShot(damageSound);
+            //print("Player health: " + health);
+        }
+        //If there is no health, then the current scene is restarted
+        else
+        {
+            int sceneIndex = SceneManager.GetActiveScene().buildIndex;
+            SceneManager.LoadScene(sceneIndex);
+        }
     }
  
+    //Method that increases the number of coins
+    public void CollectCoins()
+    {
+        coins++;
+         print("Collected coins: " + coins);
+    }
+ 
+ 
 }
+ 
+
+
