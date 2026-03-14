@@ -6,10 +6,8 @@ public class Enemy : MonoBehaviour
 {
     //Enemy movement speed
     public float speed;
- 
     //The target the enemy is moving towards
     public Transform target;
- 
     //Damage points from an attack by the player's enemy
     public int playerDamage = 2;
  
@@ -26,8 +24,13 @@ public class Enemy : MonoBehaviour
     //When an enemy collides with a player, damage is inflicted on the second player
     private void OnTriggerEnter(Collider other)
     {
-        Player player = other.GetComponent<Player>();
-        player.TakeDamage(playerDamage);
+        if (other.tag == "Player")
+        {
+            Health health = other.GetComponent<Health>();
+            health.TakeDamage(playerDamage);
+        }
     }
 }
+
+
 
